@@ -1,5 +1,5 @@
 {
-  "env": {
-    "BACKEND_URL": "@backend_url"
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs"
 }
