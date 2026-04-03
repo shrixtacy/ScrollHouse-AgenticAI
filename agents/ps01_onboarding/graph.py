@@ -103,3 +103,6 @@ def build_onboarding_graph() -> StateGraph:
     graph.add_edge("log_onboarding", END)
 
     return graph.compile()
+
+# Compile the graph for LangGraph Cloud / Studio deployment
+graph = build_onboarding_graph()

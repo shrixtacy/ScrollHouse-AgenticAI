@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "ps01_onboarding": "./agents/ps01_onboarding/graph.py:graph"
+  },
+  "env": ".env"
+}
