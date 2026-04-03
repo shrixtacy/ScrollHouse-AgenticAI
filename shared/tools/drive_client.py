@@ -25,10 +25,20 @@ class DriveClientError(Exception):
 
 def _get_service():
     """Build and return an authenticated Drive v3 service instance."""
-    creds_path = os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]
-    credentials = service_account.Credentials.from_service_account_file(
-        creds_path, scopes=SCOPES
-    )
+    import json
+    creds_json_env = os.environ.get("GOOGLE_CREDENTIALS_JSON")
+    if creds_json_env:
+        # Cloud deployment: credentials passed as JSON string env var
+        info = json.loads(creds_json_env)
+        credentials = service_account.Credentials.from_service_account_info(
+            info, scopes=SCOPES
+        )
+    else:
+        # Local: read from file path
+        creds_path = os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]
+        credentials = service_account.Credentials.from_service_account_file(
+            creds_path, scopes=SCOPES
+        )
     return build("drive", "v3", credentials=credentials, cache_discovery=False)
 
 
