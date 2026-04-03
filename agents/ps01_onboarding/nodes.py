@@ -17,9 +17,6 @@ import os
 import time
 from datetime import datetime, timedelta, timezone
 
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.messages import HumanMessage, SystemMessage
-
 from agents.ps01_onboarding.prompts import (
     ALERT_AIRTABLE_PARTIAL,
     ALERT_DRIVE_FAILURE,
@@ -53,12 +50,19 @@ from shared.tools.notion_client import NotionClientError, create_client_hub
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 def _llm():
-    """Return a configured Gemini instance."""
+    """Return a configured Gemini instance (lazy import to avoid startup hang)."""
+    from langchain_google_genai import ChatGoogleGenerativeAI  # noqa: PLC0415
     return ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
         temperature=0.4,
         max_tokens=512,
     )
+
+
+def _messages(system: str, human: str):
+    """Build LangChain message list (lazy import)."""
+    from langchain_core.messages import HumanMessage, SystemMessage  # noqa: PLC0415
+    return [SystemMessage(content=system), HumanMessage(content=human)]
 
 
 def _send_alert(to_email: str, subject: str, body: str) -> None:

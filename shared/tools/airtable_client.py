@@ -98,14 +98,28 @@ def create_client_record(fields: dict) -> dict:
             f"Cannot write partial record — missing fields: {', '.join(missing)}"
         )
 
+    # ── Map internal field names to Airtable column names ────────────────
+    airtable_fields = {
+        "brand_name": fields["brand_name"],
+        "account_manager": fields["account_manager"],
+        "contract_start_date": fields["contract_start_date"],
+        "deliverable_count": int(fields["deliverable_count"]),
+        "invoice_date": fields["invoice_date"],
+        "billing_contact": fields["billing_contact"],
+        "google_drive_link": fields["google_drive_link"],
+        "notion_page_link": fields["notion_page_link"],
+        "onboarding_status": fields["onboarding_status"],
+    }
+
     table = _get_table()
     try:
-        record = table.create(fields)
+        record = table.create(airtable_fields)
         record_id = record["id"]
         base_id = os.environ["AIRTABLE_BASE_ID"]
-        table_name = os.environ.get("AIRTABLE_TABLE_NAME", "Clients")
+        table_id = os.environ.get("AIRTABLE_TABLE_NAME", "Clients")
+        # Build a direct Airtable record URL
         record_link = (
-            f"https://airtable.com/{base_id}/{table_name}/{record_id}"
+            f"https://airtable.com/{base_id}/{table_id}/{record_id}"
         )
         logger.info("Airtable record created: %s", record_id)
         return {"record_id": record_id, "record_link": record_link}
