@@ -6,7 +6,7 @@ Extend this dict as new team members join.
 """
 
 TEAM_ROSTER: dict[str, str] = {
-    "Priya Sharma":     "priya@scrollhouse.com",
+    "Priya Sharma":     "shri25.work@gmail.com",
     "Arjun Mehta":      "arjun@scrollhouse.com",
     "Sneha Iyer":       "sneha@scrollhouse.com",
     "Rohan Kapoor":     "rohan@scrollhouse.com",

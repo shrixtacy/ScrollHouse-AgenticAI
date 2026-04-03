@@ -55,7 +55,7 @@ from shared.tools.notion_client import NotionClientError, create_client_hub
 def _llm():
     """Return a configured Gemini instance."""
     return ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
+        model="gemini-2.5-flash",
         temperature=0.4,
         max_tokens=512,
     )
